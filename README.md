@@ -14,6 +14,7 @@ Wontroba, Sven
 File/Folder | Usage
 ------------|------
 /data       | contains the csv-files used for training and testing the model
+/notes      | contains Notes/Links/Files/etc. about reference projects or other usefull information
 main.ini    | INI File containing Parameters for the script (like 'file source path'
 main.ipynb  | main Script file to launch
 project.md  | Project description / goals / deliverables / etc.
