@@ -99,7 +99,30 @@ def vectorizer(df):
   print('accuracy_score', round( accuracy_score( df['target'], df['y_pred'] ),  2))
   return df
 
+def simple_vectorizer(df):
+  from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 
+  #vectorizer = TfidfVectorizer()
+  vectorizer = CountVectorizer()
+
+  matrix_words = vectorizer.fit_transform( df['clean'] )
+
+  matrix_keywords = df["keyword"].str.get_dummies()
+
+  matrix_keywords = matrix_keywords.to_numpy()
+  #matrix_keywords = np_matrix_keywords * 100.0
+
+  import numpy as np
+  X_matrix = np.hstack( [matrix_keywords, matrix_words.toarray()] )
+  X_matrix.shape
+
+  from sklearn.model_selection import cross_val_score
+  from sklearn.pipeline import make_pipeline
+  from sklearn.linear_model import LogisticRegression
+  from sklearn.model_selection import train_test_split
+  from sklearn.metrics import accuracy_score
+
+  return matrix_words
 
 
 
