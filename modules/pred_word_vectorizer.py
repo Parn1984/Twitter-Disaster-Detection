@@ -9,7 +9,7 @@ from IPython.display import display
 
 
 def cleaning(df):
-  df.dropna(subset=['keyword'], inplace=True)
+  #df.dropna(subset=['keyword'], inplace=True)
 
   df['clean'] = df['text'].copy()
   df['clean'] = df['clean'].str.lower()
@@ -70,34 +70,51 @@ def vectorizer(df):
   from sklearn.pipeline import make_pipeline
   from sklearn.linear_model import LogisticRegression
   from sklearn.model_selection import train_test_split
-  from sklearn.metrics import accuracy_score
 
   X = matrix_words
   #X = X_matrix
   y = df['target']
 
-  X_train, X_test, y_train, y_test = train_test_split( X, y, test_size=0.2, random_state=42, stratify=y)
+  import pandas as pd
+
+  X_df = pd.DataFrame( X.toarray(), index=df.index )
+  y_df = pd.DataFrame( y,           index=df.index )
+
+  X_train, X_test, y_train, y_test = train_test_split( X_df, y_df, test_size=0.2, random_state=42, stratify=y)
 
   print( 'X_train ', X_train.shape)
   print( 'y_train ', y_train.shape)
   print( 'X_test  ', X_test.shape)
   print( 'y_test  ', y_test.shape)
 
+  return X_train, X_test, y_train, y_test
+
+
+
+def modeler(df, X_train, X_test, y_train, y_test):
+
   from sklearn.naive_bayes import MultinomialNB
 
   model = MultinomialNB()
   model.fit(X_train, y_train)
-  y_pred = model.predict(X)
+  y_pred = model.predict(X_test)
 
-  print('matrix shape', X.shape)
+  print('matrix shape', X_test.shape)
   print('y shape', y_pred.shape)
 
   import pandas as pd
 
-  df = pd.concat( [ df, pd.Series( y_pred, name='y_pred', index=df.index) ] , join='inner', axis='columns')
+  #df = pd.concat( [ df, pd.Series( y_pred, name='y_pred', index=df.index) ] , join='inner', axis='columns')
+  df_test = pd.concat( [ df, pd.Series( y_pred, name='y_pred', index=y_test.index) ] , join='inner', axis='columns')
 
-  print('accuracy_score', round( accuracy_score( df['target'], df['y_pred'] ),  2))
-  return df
+  from sklearn.metrics import accuracy_score
+
+  print('accuracy_score', round( accuracy_score( df_test['target'], df_test['y_pred'] ),  2))
+  return df_test
+
+
+
+
 
 def simple_vectorizer(df):
   from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
