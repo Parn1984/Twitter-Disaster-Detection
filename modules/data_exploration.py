@@ -1,12 +1,8 @@
-# -*- coding: utf-8 -*-
-"""
-Spyder Editor
 
-This is a temporary script file.
-"""
+from IPython.display import display
 
-import pandas as pd
-
-df = pd.read_csv("../data/disaster_tweets.csv")
-
-print(df[df.text.str.contains('fire')])
+def data_exploration(df):
+    display((df.head(),
+             df.shape,
+             df.info(),
+             df.describe()))
