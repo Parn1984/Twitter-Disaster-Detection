@@ -1,0 +1,12 @@
+Hi Daniel, Markus und Sven,
+
+Hab' mir Euer Projekt gerade angesehen: 
+
+Sehr schön ist, dass ihr Eure Funktionen in module ausgelagert habt. 
+
+Im Script main sehe ich aber bisher nur den Decision Tree Classifier und den AdaBoost Classifier. Und nur eine Evaluation auf dem Trainings-Set. Habt ihr die auch für das Test Set gemacht? Oder ist Euer Github repo nicht auf dem neuesten Stand? 
+
+Sorry, hätte Euch gerne mehr Kommentare geschrieben...ich guck Morgen nochmal rein, 
+
+VG Wolfgang
+
